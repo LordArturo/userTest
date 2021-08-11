@@ -1,0 +1,25 @@
+version: 0.2
+env:
+  variables:
+    DIST_FOLDER: "dist"
+    BUILD_ENV: "dev"
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+  pre_build:
+    commands:
+      - echo "Install dependencies"
+      - npm install
+  build:
+    commands:
+      - echo "Zipping deployment package..."
+      - cd node_modules
+      - zip -r9 ../deployment_package.zip .
+      - cd ..
+      - zip -g deployment_package.zip index.js
+  post_build:
+    commands:
+      - echo "Updating lambda Function..."
+      - aws lambda update-function-code --function-name userExample --zip-file fileb://deployment_package.zip
+      - echo "DONE!!"
