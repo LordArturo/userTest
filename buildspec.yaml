@@ -14,10 +14,11 @@ phases:
   build:
     commands:
       - echo "Zipping deployment package..."
-      - cd node_modules
-      - zip -r9 ../deployment_package.zip .
-      - cd ..
-      - zip -g deployment_package.zip index.js
+      #- cd node_modules
+      #- zip -r9 ../deployment_package.zip .
+      #- cd ..
+      #- zip -g deployment_package.zip index.js
+      - zip -r9 deployment_package.zip .
   post_build:
     commands:
       - echo "Updating lambda Function..."
