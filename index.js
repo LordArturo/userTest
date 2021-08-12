@@ -1,10 +1,31 @@
-console.log('Loading function');
 
-exports.handler = async (event, context) => {
-    //console.log('Received event:', JSON.stringify(event, null, 2));
-    console.log('valor2fdsfsd =', event.key1);
-    console.log('valor 2 =', event.key2);
-    console.log('value3 =', event.key3);
-    return event.key1;  // Echo back the first key value
-    // throw new Error('Something went wrong');
+const serverless = require('serverless-http');
+const config = require('./config');
+const logger = require('./logger');
+const ExpressServer = require('./expressServer');
+
+const launchServer = async () => {
+  try {
+    this.expressServer = new ExpressServer(config.URL_PORT, config.OPENAPI_YAML);
+    this.expressServer.launch();
+    logger.info('Express server running');
+  } catch (error) {
+    logger.error('Express Server failure', error.message);
+    await this.close();
+  }
 };
+
+/**
+ * LOCAL
+ */
+//
+//launchServer().catch(e => logger.error(e));
+
+
+/**
+ * SERVER
+ */
+ this.expressServer = new ExpressServer(config.URL_PORT, config.OPENAPI_YAML);
+ this.expressServer.launch();
+ this.app = this.expressServer.getApp();
+ module.exports.handler = serverless(this.app);
