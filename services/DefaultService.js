@@ -15,7 +15,9 @@ const Op = db.Sequelize.Op;
 const getUsersUserId = ({ userId }) => new Promise(
   async (resolve, reject) => {
     try {
+      console.log("here")
       users = await User.findAll({})
+      console.log("there")
       resolve(Service.successResponse({
         users
       }));
