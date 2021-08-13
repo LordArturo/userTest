@@ -22,6 +22,7 @@ const getUsersUserId = ({ userId }) => new Promise(
         users
       }));
     } catch (e) {
+      console.log(e.message)
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
         e.status || 405,
