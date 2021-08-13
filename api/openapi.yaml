@@ -1,12 +1,20 @@
-openapi: 3.1.0
+openapi: 3.0.1
 info:
-  title: User-Account
-  version: '1.0'
+  title: Bill Payments example
+  version: "1.0"
 servers:
-  - url: 'https://i3rjqay0v2.execute-api.us-east-1.amazonaws.com'
+- url: https://az7f0l6wd9.execute-api.us-west-2.amazonaws.com
+- url: http://localhost:3000
 paths:
   '/users/{userId}':
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
     get:
+    
       summary: Get user profile information
       tags: []
       responses:
@@ -29,39 +37,6 @@ paths:
       description: Get user profile information
       x-codegen-request-body-name: body
       x-eov-operation-handler: controllers/DefaultController
-    parameters:
-      - schema:
-          type: string
-        name: userId
-        in: path
-        required: true
-    put:
-      summary: Update info
-      operationId: putUsersUserId
-      x-codegen-request-body-name: body
-      x-eov-operation-handler: controllers/DefaultController
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                  msg:
-                    type: string
-                  data:
-                    type: string
-                  date:
-                    type: string
-      description: Update info
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserUpdate'
   /users:
     get:
       summary: Get users
@@ -79,9 +54,7 @@ paths:
                   msg:
                     type: string
                   data:
-                    type:
-                      - string
-                      - array
+                    type: array
                     items:
                       $ref: '#/components/schemas/UserProfile'
                   date:
@@ -213,19 +186,6 @@ components:
     UserCreate:
       title: UserCreate
       type: object
-      examples:
-        - firstName: string
-          middleName: string
-          surmane: string
-          secondSurname: string
-          gender: string
-          birthDate: string
-          cityOfBirth: string
-          countryOfBirth: string
-          professionOrOccupation: string
-          nationality: string
-          homeCity: 0
-          address: string
       properties:
         firstName:
           type: string
