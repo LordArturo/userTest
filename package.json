@@ -23,6 +23,9 @@
     "js-yaml": "^3.3.0",
     "ono": "^5.0.1",
     "openapi-sampler": "^1.0.0-beta.15",
+    "pg": "^8.7.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.6.5",
     "serverless-http": "^2.7.0",
     "swagger-ui-express": "^4.0.2",
     "winston": "^3.2.1"

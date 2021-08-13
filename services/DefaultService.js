@@ -1,6 +1,10 @@
 /* eslint-disable no-unused-vars */
 const Service = require('./Service');
 
+const db = require("../models");
+const User = db.user;
+const Op = db.Sequelize.Op;
+
 /**
 * Get User Info by User ID
 * Retrieve the information of the user with the matching user ID.
@@ -11,8 +15,9 @@ const Service = require('./Service');
 const getUsersUserId = ({ userId }) => new Promise(
   async (resolve, reject) => {
     try {
+      users = await User.findAll({})
       resolve(Service.successResponse({
-        userId,
+        users
       }));
     } catch (e) {
       reject(Service.rejectResponse(

@@ -7,6 +7,19 @@ const config = {
   BASE_VERSION: 'v1',
   CONTROLLER_DIRECTORY: path.join(__dirname, 'controllers'),
   PROJECT_DIR: __dirname,
+  DATABASE:{
+    HOST: "fiadodbtest.c0hybtmsbd6n.us-east-1.rds.amazonaws.com",
+    USER: "postgres",
+    PASSWORD: "postgres",
+    DB: "postgres",
+    dialect: "postgres",
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
+    }
+  }
 };
 config.OPENAPI_YAML = path.join(config.ROOT_DIR, 'api', 'openapi.yaml');
 config.FULL_PATH = `${config.URL_PATH}:${config.URL_PORT}/${config.BASE_VERSION}`;
