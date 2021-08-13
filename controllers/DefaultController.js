@@ -12,17 +12,23 @@ const getUsersUserId = async (request, response) => {
   await Controller.handleRequest(request, response, service.getUsersUserId);
 };
 
-const patchUsersUserId = async (request, response) => {
-  await Controller.handleRequest(request, response, service.patchUsersUserId);
+const putUsersUserId = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getUsersUserId);  //TO FIX
 };
 
-const postUser = async (request, response) => {
+const postUsers = async (request, response) => {
   await Controller.handleRequest(request, response, service.postUser);
 };
+
+const getUsers = async (request, response) => {
+  await Controller.handleRequest(request, response, service.postUser); //TO FIX
+};
+
 
 
 module.exports = {
   getUsersUserId,
-  patchUsersUserId,
-  postUser,
+  putUsersUserId,
+  postUsers,
+  getUsers,
 };

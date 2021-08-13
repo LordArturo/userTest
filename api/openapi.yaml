@@ -1,138 +1,317 @@
-openapi: 3.0.1
+openapi: 3.1.0
 info:
-  title: Bill Payments example
-  version: "1.0"
+  title: User-Account
+  version: '1.0'
 servers:
-- url: https://az7f0l6wd9.execute-api.us-west-2.amazonaws.com
-- url: http://localhost:3000
+  - url: 'https://i3rjqay0v2.execute-api.us-east-1.amazonaws.com'
 paths:
   '/users/{userId}':
+    get:
+      summary: Get user profile information
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/UserProfile'
+                  code:
+                    type: string
+                  msg:
+                    type: string
+                  date:
+                    type: string
+      operationId: getUsersUserId
+      description: Get user profile information
+      x-codegen-request-body-name: body
+      x-eov-operation-handler: controllers/DefaultController
     parameters:
       - schema:
           type: string
         name: userId
         in: path
         required: true
-        description: Id of an existing user.
+    put:
+      summary: Update info
+      operationId: putUsersUserId
+      x-codegen-request-body-name: body
+      x-eov-operation-handler: controllers/DefaultController
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  msg:
+                    type: string
+                  data:
+                    type: string
+                  date:
+                    type: string
+      description: Update info
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+  /users:
     get:
-      summary: Get User Info by User ID
+      summary: Get users
       tags: []
       responses:
         '200':
-          description: User Found
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-        '404':
-          description: User Not Found
-      operationId: getUsersUserId
-      x-codegen-request-body-name: body
-      x-eov-operation-handler: controllers/DefaultController
-      description: Retrieve the information of the user with the matching user ID.
-    patch:
-      summary: Update User Information
-      operationId: patchUsersUserId
-      x-codegen-request-body-name: body
-      x-eov-operation-handler: controllers/DefaultController
-      responses:
-        '200':
-          description: User Updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '404':
-          description: User Not Found
-        '409':
-          description: Email Already Taken
-      description: Update the information of an existing user.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                firstName:
-                  type: string
-                lastName:
-                  type: string
-                email:
-                  type: string
-                  description: 'If a new email is given, the user''s email verified property will be set to false.'
-                dateOfBirth:
-                  type: string
-        description: Patch user properties to update.
-  /user:
-    post:
-      summary: Create New User
-      operationId: postUser
-      x-codegen-request-body-name: body
-      x-eov-operation-handler: controllers/DefaultController
-      responses:
-        '200':
-          description: User Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
+                type: object
+                properties:
+                  code:
+                    type: string
+                  msg:
+                    type: string
+                  data:
+                    type:
+                      - string
+                      - array
+                    items:
+                      $ref: '#/components/schemas/UserProfile'
+                  date:
+                    type: string
         '400':
-          description: Missing Required Information
-        '409':
-          description: Email Already Taken
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      operationId: getUsers
+      x-codegen-request-body-name: body
+      x-eov-operation-handler: controllers/DefaultController
+      parameters: []
+      description: Get user list
+    post:
+      summary: Create user info
+      operationId: postUsers
+      x-codegen-request-body-name: body
+      x-eov-operation-handler: controllers/DefaultController
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  msj:
+                    type: string
+                  data:
+                    type: string
+                  date:
+                    type: string
+          headers: {}
       requestBody:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                firstName:
-                  type: string
-                lastName:
-                  type: string
-                email:
-                  type: string
-                dateOfBirth:
-                  type: string
-                  format: date
-              required:
-                - firstName
-                - lastName
-                - email
-                - dateOfBirth
-        description: Post the necessary fields for the API to create a new user.
-      description: Create a new user.
+              $ref: '#/components/schemas/UserCreate'
 components:
   schemas:
-    User:
-      title: User
+    UserProfile:
+      title: UserProfile
       type: object
-      description: ''
       properties:
-        id:
-          type: integer
-          description: Unique identifier for the given user.
         firstName:
           type: string
-        lastName:
+        middleName:
           type: string
-        email:
+        surmane:
           type: string
-          format: email
-        dateOfBirth:
+        secondSurname:
           type: string
-          format: date
-          example: '1997-10-31'
-        emailVerified:
-          type: boolean
-          description: Set to true if the user's email has been verified.
-        createDate:
+        gender:
+          type: integer
+        birthDate:
           type: string
-          format: date
-          description: The date that the user was created.
+        cityOfBirth:
+          type: integer
+        countryOfBirth:
+          type: integer
+        professionOrOccupation:
+          type: integer
+        nationality:
+          type: integer
+        homeCity:
+          type: integer
+        address:
+          type: string
+        photoUrl:
+          type: string
+        verificationStatus:
+          $ref: '#/components/schemas/VerificationStatus'
+        status:
+          type: string
+    InputDescriptionFile:
+      type: array
+      description: ''
+      uniqueItems: true
+      x-examples:
+        example-1:
+          - inputType: document-photo
+            data:
+              type: national-id
+              country: US
+              page: front
+              filename: US_CA_DL_FRONT.jpg
+      items:
+        type: object
+        properties:
+          inputType:
+            type: string
+          data:
+            type: object
+            required:
+              - type
+              - country
+              - page
+              - filename
+            properties:
+              type:
+                type: string
+              country:
+                type: string
+              page:
+                type: string
+              filename:
+                type: string
+        required:
+          - inputType
+          - data
+    VerificationStatus:
+      title: VerificationResponse
+      type: object
+      properties:
+        id:
+          type: string
+        documentIdStatus:
+          type: string
+        selfieStatus:
+          type: string
+        verificationUserStatus:
+          type: string
+        servicesDocumentStatus:
+          type: string
+        observations:
+          type: string
+    UserCreate:
+      title: UserCreate
+      type: object
+      examples:
+        - firstName: string
+          middleName: string
+          surmane: string
+          secondSurname: string
+          gender: string
+          birthDate: string
+          cityOfBirth: string
+          countryOfBirth: string
+          professionOrOccupation: string
+          nationality: string
+          homeCity: 0
+          address: string
+      properties:
+        firstName:
+          type: string
+        middleName:
+          type: string
+        surmane:
+          type: string
+        secondSurname:
+          type: string
+        gender:
+          type: integer
+        birthDate:
+          type: string
+        cityOfBirth:
+          type: integer
+        countryOfBirth:
+          type: integer
+        professionOrOccupation:
+          type: integer
+        nationality:
+          type: integer
+        homeCity:
+          type: integer
+        address:
+          type: string
       required:
-        - id
         - firstName
-        - lastName
-        - email
-        - emailVerified
+        - surmane
+        - gender
+        - birthDate
+        - cityOfBirth
+        - countryOfBirth
+        - professionOrOccupation
+        - nationality
+        - homeCity
+        - address
+    UserUpdate:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          firstName: string
+          middleName: string
+          surmane: string
+          secondSurname: string
+          gender: string
+          birthDate: string
+          cityOfBirth: string
+          countryOfBirth: string
+          professionOrOccupation: string
+          nationality: string
+          homeCity: 0
+          address: string
+      properties:
+        firstName:
+          type: string
+        middleName:
+          type: string
+        surmane:
+          type: string
+        secondSurname:
+          type: string
+        gender:
+          type: string
+        birthDate:
+          type: string
+        cityOfBirth:
+          type: integer
+        countryOfBirth:
+          type: integer
+        professionOrOccupation:
+          type: integer
+        nationality:
+          type: integer
+        homeCity:
+          type: integer
+        address:
+          type: string
+      required:
+        - firstName
+        - surmane
+        - gender
+        - birthDate
+        - cityOfBirth
+        - countryOfBirth
+        - professionOrOccupation
+        - nationality
+        - homeCity
+        - address
