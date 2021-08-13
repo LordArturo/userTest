@@ -15,9 +15,7 @@ const Op = db.Sequelize.Op;
 const getUsersUserId = ({ userId }) => new Promise(
   async (resolve, reject) => {
     try {
-      console.log("here")
       users = await User.findAll({})
-      console.log("there")
       resolve(Service.successResponse({
         users
       }));
@@ -63,6 +61,7 @@ const patchUsersUserId = ({ userId, body }) => new Promise(
 const postUser = ({ body }) => new Promise(
   async (resolve, reject) => {
     try {
+      users = await User.create(body)
       resolve(Service.successResponse({
         body,
       }));
