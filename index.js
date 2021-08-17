@@ -22,13 +22,13 @@ const launchServer = async () => {
  * LOCAL
  */
 //
-launchServer().catch(e => logger.error(e));
+//launchServer().catch(e => logger.error(e));
 
 
 /**
  * SERVER
  */
- //this.expressServer = new ExpressServer(config.URL_PORT, config.OPENAPI_YAML);
- //this.expressServer.launch();
- //this.app = this.expressServer.getApp();
- //module.exports.handler = serverless(this.app);
+ this.expressServer = new ExpressServer(config.URL_PORT, config.OPENAPI_YAML);
+ this.expressServer.launch();
+ this.app = this.expressServer.getApp();
+ module.exports.handler = serverless(this.app);
