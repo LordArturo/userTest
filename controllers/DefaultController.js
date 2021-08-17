@@ -21,7 +21,7 @@ const postUsers = async (request, response) => {
 };
 
 const getUsers = async (request, response) => {
-  await Controller.handleRequest(request, response, service.postUser); //TO FIX
+  await Controller.handleRequest(request, response, service.getUsers);
 };
 
 

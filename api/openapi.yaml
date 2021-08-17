@@ -1,10 +1,10 @@
 openapi: 3.0.1
 info:
   title: Bill Payments example
-  version: "1.0"
+  version: '1.0'
 servers:
-- url: https://az7f0l6wd9.execute-api.us-west-2.amazonaws.com
-- url: http://localhost:3000
+  - url: 'https://az7f0l6wd9.execute-api.us-west-2.amazonaws.com'
+  - url: 'http://localhost:3000'
 paths:
   '/users/{userId}':
     parameters:
@@ -14,7 +14,6 @@ paths:
         in: path
         required: true
     get:
-    
       summary: Get user profile information
       tags: []
       responses:
@@ -187,6 +186,8 @@ components:
       title: UserCreate
       type: object
       properties:
+        uuid:
+          type: string
         firstName:
           type: string
         middleName:
@@ -196,32 +197,29 @@ components:
         secondSurname:
           type: string
         gender:
-          type: integer
+          type: string
         birthDate:
           type: string
-        cityOfBirth:
+        cityOfBirthId:
           type: integer
-        countryOfBirth:
+        countryOfBirthId:
           type: integer
-        professionOrOccupation:
+        professionOrOccupationId:
           type: integer
-        nationality:
+        nationalityId:
           type: integer
-        homeCity:
+        homeCityId:
           type: integer
         address:
           type: string
-      required:
-        - firstName
-        - surname
-        - gender
-        #- birthDate
-        - cityOfBirth
-        - countryOfBirth
-        - professionOrOccupation
-        - nationality
-        - homeCity
-        - address
+        email:
+          type: string
+        cellphone:
+          type: string
+        documentTypeId:
+          type: string
+        documentNumber:
+          type: string
     UserUpdate:
       description: ''
       type: object

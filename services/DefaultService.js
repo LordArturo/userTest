@@ -15,7 +15,7 @@ const Op = db.Sequelize.Op;
 const getUsersUserId = ({ userId }) => new Promise(
   async (resolve, reject) => {
     try {
-      users = await User.findAll({})
+      users = await User.findAll({ where: { uuid: userId } })
       resolve(Service.successResponse({
         users
       }));
@@ -63,7 +63,24 @@ const postUser = ({ body }) => new Promise(
     try {
       users = await User.create(body)
       resolve(Service.successResponse({
-        body,
+        users,
+      }));
+    } catch (e) {
+      reject(Service.rejectResponse(
+        e.message || 'Invalid input',
+        e.status || 405,
+      ));
+    }
+  },
+);
+
+
+const getUsers = ({ body }) => new Promise(
+  async (resolve, reject) => {
+    try {
+      users = await User.findAll({})
+      resolve(Service.successResponse({
+        users,
       }));
     } catch (e) {
       reject(Service.rejectResponse(
@@ -78,4 +95,5 @@ module.exports = {
   getUsersUserId,
   patchUsersUserId,
   postUser,
+  getUsers
 };

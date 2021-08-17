@@ -1,9 +1,30 @@
+const { uuid } = require('uuidv4');
+
 module.exports = (sequelize, Sequelize) => {
     const User = sequelize.define("Users", {
       userId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+      },
+      uuid: {
+        type: Sequelize.STRING,
+        set(value) {
+          if(value == null)
+            this.setDataValue('uuid',  uuid());
+        }
+      },
+      email: {
+        type: Sequelize.STRING
+      },
+      cellphone: {
+        type: Sequelize.STRING
+      },
+      documentTypeId: {
+        type: Sequelize.INTEGER
+      },
+      documentNumber: {
+        type: Sequelize.STRING
       },
       firstName: {
         type: Sequelize.STRING
@@ -15,28 +36,28 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING
       },
       gender: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       birthDate: {
         type: Sequelize.DATEONLY,
-        set(value) {
-          console.log(value)
-          this.setDataValue('birthDate',  value);//Date.parse(value));
-        }
+        //set(value) {
+        //  console.log(value)
+        //  this.setDataValue('birthDate',  value);//Date.parse(value));
+        //}
       },
-      cityOfBirth: {
+      cityOfBirthId: {
         type: Sequelize.INTEGER
       },
-      countryOfBirth: {
+      countryOfBirthId: {
         type: Sequelize.INTEGER
       },
-      professionOrOccupation: {
+      professionOrOccupationId: {
         type: Sequelize.INTEGER
       },
-      nationality: {
+      nationalityId: {
         type: Sequelize.INTEGER
       },
-      homeCity: {
+      homeCityId: {
         type: Sequelize.INTEGER
       },
       address: {
