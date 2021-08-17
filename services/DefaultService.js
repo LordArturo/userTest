@@ -15,9 +15,9 @@ const Op = db.Sequelize.Op;
 const getUsersUserId = ({ userId }) => new Promise(
   async (resolve, reject) => {
     try {
-      users = await User.findAll({ where: { uuid: userId } })
+      user = await User.findOne({ where: { uuid: userId } })
       resolve(Service.successResponse({
-        users
+        user
       }));
     } catch (e) {
       console.log(e.message)

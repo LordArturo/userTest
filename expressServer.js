@@ -69,8 +69,8 @@ class ExpressServer {
         /**
          * LOCAL
          */
-        //http.createServer(this.app).listen(this.port);
-        //console.log(`Listening on port ${this.port}`);
+        http.createServer(this.app).listen(this.port);
+        console.log(`Listening on port ${this.port}`);
       });
   }
 

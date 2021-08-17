@@ -1,18 +1,14 @@
-const { uuid } = require('uuidv4');
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = (sequelize, Sequelize) => {
     const User = sequelize.define("Users", {
       userId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true,
+        autoIncrement: true
       },
       uuid: {
-        type: Sequelize.STRING,
-        set(value) {
-          if(value == null)
-            this.setDataValue('uuid',  uuid());
-        }
+        type: Sequelize.STRING
       },
       email: {
         type: Sequelize.STRING
@@ -39,11 +35,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING
       },
       birthDate: {
-        type: Sequelize.DATEONLY,
-        //set(value) {
-        //  console.log(value)
-        //  this.setDataValue('birthDate',  value);//Date.parse(value));
-        //}
+        type: Sequelize.DATEONLY
       },
       cityOfBirthId: {
         type: Sequelize.INTEGER
@@ -75,6 +67,11 @@ module.exports = (sequelize, Sequelize) => {
       updatedAt: false,
     }
     );
+
+    User.beforeCreate(async (user, options) => {
+      if(user.uuid == null)
+        user.uuid = uuidv4();
+    });
   
     return User;
   };
