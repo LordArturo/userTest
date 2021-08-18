@@ -2,6 +2,7 @@
 const Service = require('./Service');
 
 const db = require("../models");
+const { user } = require('../models');
 const User = db.user;
 const Op = db.Sequelize.Op;
 
@@ -15,7 +16,7 @@ const Op = db.Sequelize.Op;
 const getUsersUserId = ({ userUuid }) => new Promise(
   async (resolve, reject) => {
     try {
-      user = await User.findOne({ include:["countryOfBirth"], where: { userUuid: userUuid } })
+      var user = await User.findOne({ include:["countryOfBirth", "address"], where: { userUuid: userUuid } })
       resolve(Service.successResponse({
         user
       }));
@@ -43,12 +44,29 @@ const getUsersUserId = ({ userUuid }) => new Promise(
 const putUsersUserId = ({ userUuid, body }) => new Promise(
   async (resolve, reject) => {
     try {
+
+      if(body.address != null){
+        var user = await User.findOne({where: { userUuid: userUuid } })
+        if(user.addressId != null){
+          address = await db.Address.update(
+            { ...body.address },
+            { where: { addressId: user.addressId } }
+            
+          );
+        }else{
+          address = await db.Address.create(body.address)  
+          body.addressId = address.addressId;
+        }
+      }
+      
       user = await User.update(
-          { ...body },
-          { where: { userUuid: userUuid } }
-        );
+        { ...body },
+        { where: { userUuid: userUuid } }
+      );
+
+      
       resolve(Service.successResponse({
-        userId,
+        userUuid,
         user,
       }));
     } catch (e) {
@@ -69,7 +87,11 @@ const putUsersUserId = ({ userUuid, body }) => new Promise(
 const postUser = ({ body }) => new Promise(
   async (resolve, reject) => {
     try {
-      users = await User.create(body)
+      if(body.address != null){
+        address = await db.Address.create(body.address)  
+        body.addressId = address.addressId;
+      }
+      var users = await User.create(body)
       resolve(Service.successResponse({
         users,
       }));

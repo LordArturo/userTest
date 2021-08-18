@@ -225,7 +225,7 @@ components:
         homeCityId:
           type: integer
         address:
-          type: string
+          type: object
         email:
           type: string
         cellphone:

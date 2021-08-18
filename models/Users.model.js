@@ -54,8 +54,12 @@ module.exports = (sequelize, Sequelize) => {
       nationalityId: {
         type: Sequelize.INTEGER
       },
-      address: {
-        type: Sequelize.INTEGER
+      addressId: {
+        type: Sequelize.INTEGER,
+        references: {         // User belongsTo Company 1:1
+          model: 'Address',
+          key: 'addressId'
+        }
       },
     },
     {
@@ -83,6 +87,13 @@ module.exports = (sequelize, Sequelize) => {
       foreignKey: "countryOfBirthId",
       as: "countryOfBirth",
     });
+
+    const Address = require("./Address.model.js")(sequelize, Sequelize);
+    User.belongsTo(Address, {
+      foreignKey: "addressId",
+      as: "address",
+    });
+    //Users.hasMany(Address, { as: "Addresses" });
       
     return User;
   };
