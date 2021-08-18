@@ -93,6 +93,8 @@ class Controller {
       if (param.in === 'path') {
         requestParams[param.name] = request.openapi.pathParams[param.name];
       } else if (param.in === 'query') {
+        
+        console.log("aqui "+param.name)
         requestParams[param.name] = request.query[param.name];
       } else if (param.in === 'header') {
         requestParams[param.name] = request.headers[param.name];

@@ -12,10 +12,10 @@ const Op = db.Sequelize.Op;
 * userId Integer Id of an existing user.
 * returns User
 * */
-const getUsersUserId = ({ userId }) => new Promise(
+const getUsersUserId = ({ userUuid }) => new Promise(
   async (resolve, reject) => {
     try {
-      user = await User.findOne({ where: { uuid: userId } })
+      user = await User.findOne({ include:["countryOfBirth"], where: { userUuid: userUuid } })
       resolve(Service.successResponse({
         user
       }));
@@ -26,8 +26,12 @@ const getUsersUserId = ({ userId }) => new Promise(
         e.status || 405,
       ));
     }
+    
   },
 );
+
+
+
 /**
 * Update User Information
 * Update the information of an existing user.
@@ -36,12 +40,16 @@ const getUsersUserId = ({ userId }) => new Promise(
 * body InlineObject  (optional)
 * returns User
 * */
-const patchUsersUserId = ({ userId, body }) => new Promise(
+const putUsersUserId = ({ userUuid, body }) => new Promise(
   async (resolve, reject) => {
     try {
+      user = await User.update(
+          { ...body },
+          { where: { userUuid: userUuid } }
+        );
       resolve(Service.successResponse({
         userId,
-        body,
+        user,
       }));
     } catch (e) {
       reject(Service.rejectResponse(
@@ -66,6 +74,7 @@ const postUser = ({ body }) => new Promise(
         users,
       }));
     } catch (e) {
+      console.log(e)
       reject(Service.rejectResponse(
         e.message || 'Invalid input',
         e.status || 405,
@@ -78,7 +87,7 @@ const postUser = ({ body }) => new Promise(
 const getUsers = ({ body }) => new Promise(
   async (resolve, reject) => {
     try {
-      users = await User.findAll({})
+      users = await User.findAll({include:["countryOfBirth"]})
       resolve(Service.successResponse({
         users,
       }));
@@ -93,7 +102,7 @@ const getUsers = ({ body }) => new Promise(
 
 module.exports = {
   getUsersUserId,
-  patchUsersUserId,
+  putUsersUserId,
   postUser,
   getUsers
 };

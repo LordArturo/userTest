@@ -13,7 +13,7 @@ const getUsersUserId = async (request, response) => {
 };
 
 const putUsersUserId = async (request, response) => {
-  await Controller.handleRequest(request, response, service.getUsersUserId);  //TO FIX
+  await Controller.handleRequest(request, response, service.putUsersUserId);
 };
 
 const postUsers = async (request, response) => {

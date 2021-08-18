@@ -20,4 +20,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.user = require("./Users.model.js")(sequelize, Sequelize);
+db.DocumentType = require("./DocumentType.model.js")(sequelize, Sequelize);
+db.Country = require("./Country.model.js")(sequelize, Sequelize);
+db.Address = require("./Address.model.js")(sequelize, Sequelize);
 module.exports = db;

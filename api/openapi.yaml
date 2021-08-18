@@ -6,11 +6,11 @@ servers:
   - url: 'https://az7f0l6wd9.execute-api.us-west-2.amazonaws.com'
   - url: 'http://localhost:3000'
 paths:
-  '/users/{userId}':
+  '/users/{userUuid}':
     parameters:
       - schema:
           type: string
-        name: userId
+        name: userUuid
         in: path
         required: true
     get:
@@ -36,6 +36,20 @@ paths:
       description: Get user profile information
       x-codegen-request-body-name: body
       x-eov-operation-handler: controllers/DefaultController
+    put:
+      summary: ''
+      operationId: putUsersUserId
+      x-codegen-request-body-name: body
+      x-eov-operation-handler: controllers/DefaultController
+      responses:
+        '200':
+          description: OK
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
   /users:
     get:
       summary: Get users

@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
+const models = require("./index.js");
 
 module.exports = (sequelize, Sequelize) => {
     const User = sequelize.define("Users", {
@@ -7,7 +8,7 @@ module.exports = (sequelize, Sequelize) => {
         primaryKey: true,
         autoIncrement: true
       },
-      uuid: {
+      userUuid: {
         type: Sequelize.STRING
       },
       email: {
@@ -41,7 +42,11 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER
       },
       countryOfBirthId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {         // User belongsTo Company 1:1
+          model: 'Country',
+          key: 'countryId'
+        }
       },
       professionOrOccupationId: {
         type: Sequelize.INTEGER
@@ -49,11 +54,8 @@ module.exports = (sequelize, Sequelize) => {
       nationalityId: {
         type: Sequelize.INTEGER
       },
-      homeCityId: {
-        type: Sequelize.INTEGER
-      },
       address: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
     },
     {
@@ -69,9 +71,18 @@ module.exports = (sequelize, Sequelize) => {
     );
 
     User.beforeCreate(async (user, options) => {
-      if(user.uuid == null)
-        user.uuid = uuidv4();
+      if(user.userUuid == null)
+        user.userUuid = uuidv4();
     });
-  
+
+    
+
+
+    const Country = require("./Country.model.js")(sequelize, Sequelize);
+    User.belongsTo(Country, {
+      foreignKey: "countryOfBirthId",
+      as: "countryOfBirth",
+    });
+      
     return User;
   };
